@@ -2,10 +2,8 @@ sudo: required
 
 dist: trusty
 
-before_install:
-  - sudo apt-get -y purge docker-engine
-  - bash <(curl -fsSL https://get.docker.com/)
-  - docker pull debian:jessie
+services:
+  - docker
 
 script:
   - sudo make
