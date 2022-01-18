@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:bullseye
 
 # Install dependencies
 RUN apt-get -y update

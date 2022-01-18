@@ -1,6 +1,7 @@
 SHELL := /bin/bash
+tag?=latest
 
-.PHONY: envs push-envs mac-env windows-env centos-env debian-env arch-env generic-linux-env publish publish-beta
+.PHONY: envs mac-env windows-env centos-env debian-env arch-env generic-linux-env publish publish-beta
 
 default: envs
 	@true
@@ -8,53 +9,63 @@ default: envs
 envs: mac-env windows-env centos-env debian-env arch-env generic-linux-env
 
 mac-env:
-	if [[ ! $$(docker images nanobox/mac-env) =~ "nanobox/mac-env" ]]; then \
-		docker build --no-cache -t nanobox/mac-env -f Dockerfile.mac-env .;\
+	if [[ ! $$(docker images mubox/mac-env) =~ "mubox/mac-env" ]]; then \
+		docker build --no-cache -t mubox/mac-env -f Dockerfile.mac-env .;\
 	fi
 
 windows-env:
-	if [[ ! $$(docker images nanobox/windows-env) =~ "nanobox/windows-env" ]]; then \
-		docker build --no-cache -t nanobox/windows-env -f Dockerfile.windows-env .; \
+	if [[ ! $$(docker images mubox/windows-env) =~ "mubox/windows-env" ]]; then \
+		docker build --no-cache -t mubox/windows-env -f Dockerfile.windows-env .; \
 	fi
 
 centos-env:
-	if [[ ! $$(docker images nanobox/centos-env) =~ "nanobox/centos-env" ]]; then \
-		docker build --no-cache -t nanobox/centos-env -f Dockerfile.centos-env .; \
+	if [[ ! $$(docker images mubox/centos-env) =~ "mubox/centos-env" ]]; then \
+		docker build --no-cache -t mubox/centos-env -f Dockerfile.centos-env .; \
 	fi
 
 debian-env:
-	if [[ ! $$(docker images nanobox/debian-env) =~ "nanobox/debian-env" ]]; then \
-		docker build --no-cache -t nanobox/debian-env -f Dockerfile.debian-env .; \
+	if [[ ! $$(docker images mubox/debian-env) =~ "mubox/debian-env" ]]; then \
+		docker build --no-cache -t mubox/debian-env -f Dockerfile.debian-env .; \
 	fi
 
 arch-env:
-	if [[ ! $$(docker images nanobox/arch-env) =~ "nanobox/arch-env" ]]; then \
-		docker build --no-cache -t nanobox/arch-env -f Dockerfile.arch-env .; \
+	if [[ ! $$(docker images mubox/arch-env) =~ "mubox/arch-env" ]]; then \
+		docker build --no-cache -t mubox/arch-env -f Dockerfile.arch-env .; \
 	fi
 
 generic-linux-env:
-	if [[ ! $$(docker images nanobox/generic-linux-env) =~ "nanobox/generic-linux-env" ]]; then \
-		docker build --no-cache -t nanobox/generic-linux-env -f Dockerfile.generic-linux-env .; \
+	if [[ ! $$(docker images mubox/generic-linux-env) =~ "mubox/generic-linux-env" ]]; then \
+		docker build --no-cache -t mubox/generic-linux-env -f Dockerfile.generic-linux-env .; \
 	fi
 
 publish:
-	docker push nanobox/generic-linux-env
-	docker push nanobox/arch-env
-	docker push nanobox/debian-env
-	docker push nanobox/centos-env
-	docker push nanobox/windows-env
-	docker push nanobox/mac-env
+	if [ "$(tag)" != "latest" ]; then \
+		docker tag mubox/mac-env mubox/mac-env:$(tag); \
+		docker tag mubox/windows-env mubox/windows-env:$(tag); \
+		docker tag mubox/centos-env mubox/centos-env:$(tag); \
+		docker tag mubox/debian-env mubox/debian-env:$(tag); \
+		docker tag mubox/arch-env mubox/arch-env:$(tag); \
+		docker tag mubox/generic-linux-env mubox/generic-linux-env:$(tag); \
+	fi
+
+	docker push mubox/mac-env:$(tag)
+	docker push mubox/windows-env:$(tag)
+	docker push mubox/centos-env:$(tag)
+	docker push mubox/debian-env:$(tag)
+	docker push mubox/arch-env:$(tag)
+	docker push mubox/generic-linux-env:$(tag)
 
 publish-beta:
-	docker tag nanobox/generic-linux-env nanobox/generic-linux-env-beta
-	docker tag nanobox/arch-env nanobox/arch-env-beta
-	docker tag nanobox/debian-env nanobox/debian-env-beta
-	docker tag nanobox/centos-env nanobox/centos-env-beta
-	docker tag nanobox/windows-env nanobox/windows-env-beta
-	docker tag nanobox/mac-env nanobox/mac-env-beta
-	docker push nanobox/generic-linux-env-beta
-	docker push nanobox/arch-env-beta
-	docker push nanobox/debian-env-beta
-	docker push nanobox/centos-env-beta
-	docker push nanobox/windows-env-beta
-	docker push nanobox/mac-env-beta
+	docker tag mubox/mac-env mubox/mac-env:beta
+	docker tag mubox/windows-env mubox/windows-env:beta
+	docker tag mubox/centos-env mubox/centos-env:beta
+	docker tag mubox/debian-env mubox/debian-env:beta
+	docker tag mubox/arch-env mubox/arch-env:beta
+	docker tag mubox/generic-linux-env mubox/generic-linux-env:beta
+
+	docker push mubox/mac-env:beta
+	docker push mubox/windows-env:beta
+	docker push mubox/centos-env:beta
+	docker push mubox/debian-env:beta
+	docker push mubox/arch-env:beta
+	docker push mubox/generic-linux-env:beta

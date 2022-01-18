@@ -1,10 +1,13 @@
-FROM debian:jessie
+FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN dpkg --add-architecture i386
 RUN sed -i "s/main/main contrib non-free/" etc/apt/sources.list
-RUN apt-get update && apt-get install -yq wine curl unrar unzip libcurl4-openssl-dev autoconf gcc make libssl-dev p7zip-full || apt-get install -yq wine curl unrar unzip libcurl4-openssl-dev autoconf gcc make libssl-dev p7zip-full || apt-get install -yq wine curl unrar unzip libcurl4-openssl-dev autoconf gcc make libssl-dev p7zip-full
+RUN apt-get update && \
+    apt-get install -yq wine curl unrar unzip libcurl4-openssl-dev autoconf gcc make libssl-dev p7zip-full || \
+    apt-get install -yq wine curl unrar unzip libcurl4-openssl-dev autoconf gcc make libssl-dev p7zip-full || \
+    apt-get install -yq wine curl unrar unzip libcurl4-openssl-dev autoconf gcc make libssl-dev p7zip-full
 
 # innosetup
 RUN mkdir innosetup && \
@@ -18,8 +21,7 @@ RUN cd innosetup && \
 
 RUN mkdir /osslsigncode && \
     cd /osslsigncode && \
-    curl -fsSL -o osslsigncode-1.7.1.tar.gz "http://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz?r=&ts=1469050502&use_mirror=skylineservers" && \
-    tar -xzf osslsigncode-1.7.1.tar.gz && \
-    cd osslsigncode-1.7.1 && \
+    curl -fsSL "https://github.com/mtrojnar/osslsigncode/releases/download/2.2/osslsigncode-2.2.0.tar.gz" | tar xvz && \
+    cd osslsigncode-* && \
     ./configure && \
     make
