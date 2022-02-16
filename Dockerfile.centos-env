@@ -1,8 +1,8 @@
-FROM centos:8
+FROM quay.io/centos/centos:stream9
 
 # Install dependencies
 RUN yum -y update
 RUN yum -y install ruby-devel gcc make rpm-build
 
 # Install fpm
-RUN gem install --no-ri --no-rdoc fpm
+RUN gem install --no-document fpm
