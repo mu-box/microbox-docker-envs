@@ -4,13 +4,12 @@ RUN sed -i 's/ main\s*/ main contrib non-free/g' /etc/apt/sources.list && \
 	apt-get update && apt-get -y install \
 		autoconf build-essential curl \
 		libxml2-dev libssl-dev \
-		p7zip-full zlib1g-dev \
-		hfsplus hfsutils hfsprogs cpio || \
-	apt-get update && apt-get -y install \
-		autoconf build-essential curl \
-		libxml2-dev libssl-dev libbz2-dev \
-		p7zip-full zlib1g-dev \
-		hfsplus hfsutils hfsprogs cpio
+		libbz2-dev zlib1g-dev \
+		hfsplus hfsutils hfsprogs cpio unzip
+
+RUN mkdir 7zinst && cd 7zinst && \
+	curl -fsSL https://www.7-zip.org/a/7z2107-linux-x64.tar.xz | tar xvJ && \
+	mv 7zzs /usr/local/bin/7z
 
 # We need the bomutils to create the Mac OS X Bill of Materials (BOM) files.
 # https://github.com/hogliux/bomutils

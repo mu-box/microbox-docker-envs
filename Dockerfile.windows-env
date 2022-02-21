@@ -24,4 +24,5 @@ RUN mkdir /osslsigncode && \
     curl -fsSL "https://github.com/mtrojnar/osslsigncode/releases/download/2.2/osslsigncode-2.2.0.tar.gz" | tar xvz && \
     cd osslsigncode-* && \
     ./configure && \
-    make
+    make && \
+    make install
