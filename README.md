@@ -4,4 +4,4 @@ This repo contains the files necessary to create a docker '-env' images for [Mic
 
 ## License
 
-MIT
+This project is released under [The MIT License](http://opensource.org/licenses/MIT).
